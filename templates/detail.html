@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+{% load user_tags %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block main %}
+
+    <style>
+        #main {
+            padding:0px 10px 10px 10px;
+        }
+
+        #detail_go_back {
+            font-size:12px;
+            text-decoration: none;
+            color: #1E90FF;
+            padding:5px 5px 5px 5px;
+            position: relative;
+            top: 4px;
+            left: -12px;
+        }
+        #detail_go_back_span {
+            font-size:20px;
+            text-decoration: none;
+            color: #1E90FF;
+            position: relative;
+            top: 0px;
+            left: 0px;
+
+        }
+
+    </style>
+
+    <script>
+        $(function() {
+            var RHeight = window.screen.availHeight * 0.49;
+            $(".list").height(RHeight);
+
+        });
+    </script>
+
+<a id="detail_go_back" href="{{ go_back_url }}"><span id="detail_go_back_span"><</span>返回</a>
+<div class="list" style="padding:7px 0px 0px 0px;">
+    <ol>
+    <li class="detail">
+        <!--<div class="face">-->
+            <!--<p>-->
+                <!--<a href="{% url 'tmitter-mvc-views-index_user' item.user.username %}">-->
+                <!--<img src="{{ item.user.face|face32 }}" class="face32" />-->
+                <!--</a>-->
+            <!--</p>-->
+            <!--<p class="name">-->
+                <!--<a href="{% url 'tmitter-mvc-views-index_user' item.user.username %}" class="name">{{ item.user.realname }}</a>-->
+            <!--</p>-->
+        <!--</div>-->
+        <div class="right" style="margin:10px 20px 10px 20px;">
+            <p class="message"><h2 style="margin:0 0 5px 0;text-align:center;color:#ef1f15;">{{ item.heads }}</h2>{{ item.message|safe }}</p>
+            <div class="info" style="margin-top:20px;">
+                <span class="date">{{ item.addtime|timesince }} {% trans 'ago' %}</span><br />
+                <span class="category">{% trans 'from' %} {{ item.category.name }}</span>
+                {% if islogin %}
+                {% ifequal userid item.user.id %}
+                <span class="delete"><a href="{% url 'tmitter-mvc-views-detail_delete' item.id %}">{% trans 'Delete' %}</a></span>
+                {% endifequal  %}
+                {% endif %}
+            </div>
+        </div>
+    </li>
+    </ol>
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+{% load user_tags %}
+<p class="message">
+
+    <a  style="float:left;" href="{% url 'tmitter-mvc-views-index_user' item.user.username %}" class="name">
+        <span class="face"><img src="{{ item.user.face|face16 }}" class="face16" /></span>
+    </a>
+        <div style="float:left;font-size:8px;height:16px;">
+            <div style="height:8px;">{{ item.user.realname }}</div>
+            <span class="date">{{ item.addtime|timesince }} 前,  </span>
+            <span class="category">来自 {% trans item.category.name %}</span>
+        </div>
+    <br>
+    <div style="margin:6px 0px 0 0px;">
+        {{ item.heads|urlize|slice:":10" }}... <a class="more" href="{% url 'tmitter-mvc-views-detail' item.id %}">全 文</a>
+        {% if islogin %}
+        {% ifequal userid item.user.id %}
+        <span class="delete" style="float:right;"><a href="{% url 'tmitter-mvc-views-detail_delete' item.id %}">删 除</a></span>
+        {% endifequal  %}
+        {% endif %}
+    </div>
+<p>
+<p class="info">
+
+
+</p>           
